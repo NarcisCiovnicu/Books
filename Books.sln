@@ -7,11 +7,13 @@ Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "vueapp", "vueapp\vueapp.esp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "webapi", "webapi\webapi.csproj", "{8C52282A-959D-4FB4-9040-96C8B11079FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{B5255296-A003-4A0D-9D36-209B4C54726B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{B5255296-A003-4A0D-9D36-209B4C54726B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{8B60BCEA-4156-40F0-8758-1D29A5C01DB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{8B60BCEA-4156-40F0-8758-1D29A5C01DB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{55581394-D6CF-483B-9AA6-58B798747F48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{55581394-D6CF-483B-9AA6-58B798747F48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic.UnitTests", "BusinessLogic.UnitTests\BusinessLogic.UnitTests.csproj", "{13C9B0F6-0429-4E27-B115-9D4A76154302}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{55581394-D6CF-483B-9AA6-58B798747F48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55581394-D6CF-483B-9AA6-58B798747F48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55581394-D6CF-483B-9AA6-58B798747F48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13C9B0F6-0429-4E27-B115-9D4A76154302}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13C9B0F6-0429-4E27-B115-9D4A76154302}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13C9B0F6-0429-4E27-B115-9D4A76154302}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13C9B0F6-0429-4E27-B115-9D4A76154302}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
