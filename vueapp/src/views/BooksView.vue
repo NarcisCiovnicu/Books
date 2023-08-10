@@ -33,7 +33,7 @@
             Authors
         </v-col>
         <v-col cols="2" class="d-flex justify-center">
-            <v-btn color="primary" size="small" @click="goToAddPage()">
+            <v-btn color="primary" @click="goToAddPage()" min-width="120" max-width="120">
                 Add new
                 <v-icon end icon="mdi-plus"></v-icon>
             </v-btn>
@@ -59,11 +59,11 @@
                 </div>
             </v-col>
             <v-col class="d-flex flex-column justify-center align-center" cols="2">
-                    <v-btn class="w-50 my-1" size="small" color="secondary" @click="goToEditPage(book.id)">
+                    <v-btn class="w-50 my-1" min-width="100" max-width="100" color="secondary" @click="goToEditPage(book.id)">
                         Edit
                         <v-icon end icon="mdi-file-edit"></v-icon>
                     </v-btn>
-                    <v-btn class="w-50 my-1" size="small" color="red" @click="deleteDialog = true; selectedBook = book">
+                    <v-btn class="my-1" min-width="100" max-width="100" color="red" @click="deleteDialog = true; selectedBook = book">
                         Delete
                         <v-icon end icon="mdi-minus-circle"></v-icon>
                     </v-btn>

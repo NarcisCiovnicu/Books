@@ -1,31 +1,43 @@
 <template>
-    <v-form v-model="form.isValid">
-        <v-row>
-            <v-text-field :rules="requiredRules" v-model.trim="book.title" label="Title" required />
-        </v-row>
-        <v-row>
-            <v-textarea :rules="requiredRules" v-model.trim="book.description" label="Description" required />
-        </v-row>
-        <v-row>
-            <v-col>
-                <v-file-input @change="uploadCoverPhoto" @click:clear="clearImage" :rules="imageRules" 
+    <v-container>
+        <v-form v-model="form.isValid">
+            <v-row>
+                <v-text-field :rules="requiredRules" v-model.trim="book.title" label="Title" required />
+            </v-row>
+            <v-row>
+                <v-textarea :rules="requiredRules" v-model.trim="book.description" label="Description" required />
+            </v-row>
+            <v-row>
+                <v-col>
+                    <v-file-input @change="uploadCoverPhoto" @click:clear="clearImage" :rules="imageRules" 
                     prepend-icon="mdi-image" show-size accept="image/png, image/jpeg, image/bmp" label="Upload cover photo" chips required />
-            </v-col>
-            <v-col>
-                <v-img v-if="book.coverPhoto" :src="`data:image;base64,${book.coverPhoto}`" max-width="16vw" max-height="25vh" alt="Cover photo" />
-                <v-img v-else :src="require('../assets/no-image.png')" max-width="16vw" max-height="25vh" alt="No image" />
-            </v-col>
-        </v-row>
+                </v-col>
+                <v-col>
+                    <v-img v-if="book.coverPhoto" :src="`data:image;base64,${book.coverPhoto}`" max-width="16vw" max-height="25vh" alt="Cover photo" />
+                    <v-img v-else :src="require('../assets/no-image.png')" max-width="16vw" max-height="25vh" alt="No image" />
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-select v-model="selectedAuthors" @update:modelValue="addAuthors" :rules="requiredRules" :items="authors" :disabled="!authors.length"
+                    chips label="Authors" multiple item-title="name" item-value="id" />
+            </v-row>
+        </v-form>
         <v-row>
-            <v-select v-model="selectedAuthors" @update:modelValue="addAuthors" :rules="requiredRules" :items="authors" :disabled="!authors.length"
-                chips label="Authors" multiple item-title="name" item-value="id" />
+            <v-col align="center">
+                <slot name="confirm-btn" />
+            </v-col>
+            <v-col align="center">
+                <v-btn @click="cancel">
+                    Cancel
+                </v-btn>
+            </v-col>
         </v-row>
-    </v-form>
-
+    </v-container>
 </template>
 
 <script setup lang="js">
     import {defineProps, ref, inject, onMounted} from 'vue'
+    import router from '@/routing';
 
     const props = defineProps(['book', 'form']);
     
@@ -70,6 +82,10 @@
 
     const addAuthors = () => {
         book.value.authors = authors.value.filter((auth) => selectedAuthors.value.includes(auth.id));
+    };
+
+    const cancel = () => {
+        router.push("/Books");
     };
 
     const imageRules = [

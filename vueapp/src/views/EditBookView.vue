@@ -5,24 +5,16 @@
    <v-container v-if="isLoading" class="d-flex justify-center">
       <v-progress-circular color="primary" indeterminate></v-progress-circular>
    </v-container>
-   <v-container v-else-if="book">
-      <EditBookForm :book="book" :form="form"/>
-      <v-row>
-               <v-col align="center">
-                  <v-btn @click="saveBook" :disabled="!form.isValid" color="primary">
-                     Save
-                  </v-btn>
-               </v-col>
-               <v-col align="center">
-                  <v-btn @click="cancel">
-                     Cancel
-                  </v-btn>
-               </v-col>
-         </v-row>
-    </v-container>
-    <v-container v-else>
+   <EditBookForm v-else-if="book" :book="book" :form="form">
+      <template v-slot:confirm-btn>
+         <v-btn @click="saveBook" :disabled="!form.isValid" color="primary">
+            Save
+         </v-btn>
+      </template>
+   </EditBookForm>
+   <v-container v-else>
       Erorr
-    </v-container>
+   </v-container>
   
 </template>
   
@@ -57,10 +49,6 @@
         if (result) {
             router.push("/Books");
         }
-    };
-
-    const cancel = () => {
-        router.push("/Books");
     };
 
 </script>

@@ -2,21 +2,13 @@
  
     <MainTitle text="Add new book" />
 
-    <v-container>
-        <EditBookForm :book="book" :form="form"/>
-        <v-row>
-                <v-col align="center">
-                    <v-btn @click="addBook" :disabled="!form.isValid" color="primary">
-                        Add
-                    </v-btn>
-                </v-col>
-                <v-col align="center">
-                    <v-btn @click="cancel">
-                        Cancel
-                    </v-btn>
-                </v-col>
-            </v-row>
-    </v-container>
+    <EditBookForm :book="book" :form="form"> 
+        <template v-slot:confirm-btn>
+            <v-btn @click="addBook" :disabled="!form.isValid" color="primary">
+                Add
+            </v-btn>
+        </template>
+    </EditBookForm>
 </template>
 
 <script setup lang="js">
@@ -43,10 +35,5 @@
             router.push("/Books");
         }
     };
-
-    const cancel = () => {
-        router.push("/Books");
-    };
-
 
 </script>
