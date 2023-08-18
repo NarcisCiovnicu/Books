@@ -11,23 +11,20 @@
     </EditBookForm>
 </template>
 
-<script setup lang="js">
+<script setup lang="ts">
+    import Book from '@/models/book';
+    import BooksService from '@/services/books.service';
     import MainTitle from '@/components/MainTitle.vue';
     import EditBookForm from '@/components/EditBookForm.vue';
     import router from '@/routing';
     import { inject, ref } from 'vue';
 
-    const booksService = inject("booksService");
+    const booksService = inject<BooksService>("booksService")!;
 
     const form = ref({
         isValid: false
     });
-    const book = ref({
-        title: null,
-        description: null,
-        coverPhoto: null,
-        authors: []
-    });
+    const book = ref<Book>(new Book());
 
     const addBook = async () => {
         let result = await booksService.addBook(book.value);

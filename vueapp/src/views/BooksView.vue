@@ -5,10 +5,10 @@
 <v-dialog v-model="deleteDialog" width="auto">
       <v-card>
         <v-card-text>
-            Are you sure you want to delete this book? '{{ selectedBook.title }}'
+            Are you sure you want to delete this book? '{{ selectedBook!.title }}'
         </v-card-text>
         <v-card-actions class="d-flex justify-space-around">
-            <v-btn color="primary" @click="deleteBook(selectedBook.id)">Yes</v-btn>
+            <v-btn color="primary" @click="deleteBook(selectedBook!.id)">Yes</v-btn>
             <v-btn @click="deleteDialog = false">Cancel</v-btn>
         </v-card-actions>
       </v-card>
@@ -76,36 +76,38 @@
 
 </template>
 
-<script setup lang="js">
-    import MainTitle from '@/components/MainTitle.vue';
-    import router from '@/routing';
-    import { ref, onMounted, inject } from 'vue'
-    
-    const booksService = inject("booksService");
-    
-    const deleteDialog = ref(false);
-    const isLoading = ref(true);
-    const books = ref([]);
-    const selectedBook = ref(null);
+<script setup lang="ts">
+import Book from '@/models/book';
+import BooksService from '@/services/books.service';
+import MainTitle from '@/components/MainTitle.vue';
+import router from '@/routing';
+import { ref, onMounted, inject } from 'vue'
 
-    onMounted(async () => {
-        books.value = await booksService.fetchAllBooks();
-        isLoading.value = false;
-    });
+const booksService = inject<BooksService>("booksService")!;
 
-    const deleteBook = async (id) => {
-        if (await booksService.deleteBook(id)) {
-            books.value = books.value.filter(b => b.id !== id);
-        }
-        deleteDialog.value = false;
-    };
+const deleteDialog = ref(false);
+const isLoading = ref(true);
+const books = ref<Book[]>([]);
+const selectedBook = ref<Book | null>(null);
 
-    const goToAddPage = () => {
-        router.push("/Books/Add");
-    };
+onMounted(async () => {
+    books.value = await booksService.fetchAllBooks();
+    isLoading.value = false;
+});
 
-    const goToEditPage = (id) => {
-        router.push(`/Books/Edit/${id}`);
-    };
+const deleteBook = async (id: number) => {
+    if (await booksService.deleteBook(id)) {
+        books.value = books.value.filter(b => b.id !== id);
+    }
+    deleteDialog.value = false;
+};
+
+const goToAddPage = () => {
+    router.push("/Books/Add");
+};
+
+const goToEditPage = (id: number) => {
+    router.push(`/Books/Edit/${id}`);
+};
 
 </script>

@@ -35,79 +35,84 @@
     </v-container>
 </template>
 
-<script setup lang="js">
-    import {defineProps, ref, inject, onMounted} from 'vue'
-    import router from '@/routing';
+<script setup lang="ts">
 
-    const props = defineProps(['book', 'form']);
-    
-    const authorsService = inject("authorsService");
+import { ref, inject, onMounted } from 'vue'
+import router from '@/routing';
+import AuthorsService from '@/services/authors.service';
+import Author from '@/models/author';
+import Book from '@/models/book';
 
-    const authors = ref([]);
-    const selectedAuthors = ref([]);
+const props = defineProps(['book', 'form']);
 
-    const form = ref(props.form);
-    const book = ref(props.book);
+const authorsService = inject<AuthorsService>("authorsService")!;
+
+const authors = ref<Author[]>([]);
+const selectedAuthors = ref<number[]>([]);
+
+const form = ref(props.form);
+const book = ref<Book>(props.book);
 
 
-    onMounted(async () => {
-        authors.value = await authorsService.fetchAllAuthors();
-        if (book.value.id) {
-            selectedAuthors.value = book.value.authors.map(auth => auth.id);
+onMounted(async () => {
+    authors.value = await authorsService.fetchAllAuthors();
+    if (book.value.id) {
+        selectedAuthors.value = book.value.authors.map((auth: Author) => auth.id);
+    }
+});
+
+const uploadCoverPhoto = (event: any) => {
+    book.value.coverPhoto = null;
+
+    if (event.target.files.length) {
+        let file = event.target.files[0];
+        
+        if (file.size > 2000000) {
+            return;
         }
-    });
 
-    const uploadCoverPhoto = (event) => {
-        book.value.coverPhoto = null;
+        const reader = new FileReader();
+        reader.onload = () => {
+            let [_, img] = (reader.result as string).split(',');
+            book.value.coverPhoto = img;
+        };
 
-        if (event.target.files.length) {
-            let file = event.target.files[0];
-            
-            if (file.size > 2000000) {
-                return;
-            }
+        reader.readAsDataURL(file);
+    }
+};
+const clearImage = () => {
+    book.value.coverPhoto = null;
+};
 
-            const reader = new FileReader();
-            reader.onload = () => {
-                let [_, img] = reader.result.split(',');
-                book.value.coverPhoto = img;
-            };
+const addAuthors = () => {
+    book.value.authors = authors.value.filter((auth: Author) => selectedAuthors.value.includes(auth.id));
+};
 
-            reader.readAsDataURL(file);
-        }
-    };
-    const clearImage = () => {
-        book.value.coverPhoto = null;
-    };
+const cancel = () => {
+    router.push("/Books");
+};
 
-    const addAuthors = () => {
-        book.value.authors = authors.value.filter((auth) => selectedAuthors.value.includes(auth.id));
-    };
-
-    const cancel = () => {
-        router.push("/Books");
-    };
-
-    const imageRules = [
-        value => {
-            if (book.value.coverPhoto) {
-                return true;
-            }
-            if (!value || !value.length) {
-                return "Required";
-            }
-            else if (value[0].size > 2000000) {
-                return "Cover photo size should be less than 2 MB!";
-            }
+const imageRules = [
+    (value: any) => {
+        if (book.value.coverPhoto) {
             return true;
         }
-    ];
-    const requiredRules = [
-        value => {
-            if (!value || !value.length) {
-                return "Required"
-            }
-            return true;
+        if (!value || !value.length) {
+            return "Required";
         }
-    ];
+        else if (value[0].size > 2000000) {
+            return "Cover photo size should be less than 2 MB!";
+        }
+        return true;
+    }
+];
+const requiredRules = [
+    (value: any) => {
+        if (!value || !value.length) {
+            return "Required"
+        }
+        return true;
+    }
+];
+
 </script>

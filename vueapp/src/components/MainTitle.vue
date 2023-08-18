@@ -4,8 +4,8 @@
     </v-container>
 </template>
 
-<script setup lang="js">
-    import {defineProps} from 'vue'
-    
-    const props = defineProps(['text']);
+<script setup lang="ts">
+
+const props = defineProps(['text']);
+
 </script>

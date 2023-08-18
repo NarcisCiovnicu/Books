@@ -3,7 +3,7 @@ import BooksView from './views/BooksView.vue'
 import AddBookView from './views/AddBookView.vue'
 import EditBookView from './views/EditBookView.vue'
 
-let router = createRouter({
+const router = createRouter({
     history: createWebHistory(),
     routes: [
         {

@@ -1,9 +1,9 @@
 import { useToast } from 'vue-toast-notification';
 
-export default function processError(error) {
-    let statusCode = error.response.status;
-    let headers = error.response.headers;
-    let data = error.response.data;
+export default function processError(error: any) {
+    const statusCode = error.response.status;
+    const headers = error.response.headers;
+    const data = error.response.data;
     
     const toast = useToast({
         position: 'bottom',

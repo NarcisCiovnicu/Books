@@ -18,37 +18,40 @@
   
 </template>
   
-<script setup lang="js">
-   import MainTitle from '@/components/MainTitle.vue';
-   import EditBookForm from '@/components/EditBookForm.vue';
-   import router from '@/routing';
-   import { inject, ref, onMounted } from 'vue';
-   import {useRoute} from "vue-router";
+<script setup lang="ts">
 
-   const booksService = inject("booksService");
+import Book from '@/models/book';
+import MainTitle from '@/components/MainTitle.vue';
+import EditBookForm from '@/components/EditBookForm.vue';
+import router from '@/routing';
+import { inject, ref, onMounted } from 'vue';
+import {useRoute} from "vue-router";
+import BooksService from '@/services/books.service';
 
-   const isLoading = ref(true);
-   const form = ref({
-      isValid: true
-   });
+const booksService = inject<BooksService>("booksService")!;
 
-   const book = ref(null);
+const isLoading = ref(true);
+const form = ref({
+   isValid: true
+});
 
-   onMounted(async () => {
-      const route = useRoute();
-      const bookId = route.params.id;
+const book = ref<Book | null>(null);
 
-      book.value = await booksService.fetchBook(bookId);
+onMounted(async () => {
+   const route = useRoute();
+   const bookId = Number(route.params.id);
 
-      isLoading.value = false;
-   });
+   book.value = await booksService.fetchBook(bookId);
+
+   isLoading.value = false;
+});
 
 
-   const saveBook = async () => {
-        let result = await booksService.updateBook(book.value);
-        if (result) {
-            router.push("/Books");
-        }
-    };
+const saveBook = async () => {
+   let result = await booksService.updateBook(book.value!);
+   if (result) {
+      router.push("/Books");
+   }
+};
 
 </script>
